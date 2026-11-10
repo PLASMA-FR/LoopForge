@@ -1,0 +1,18 @@
+# Conservative context and read concurrency for a 4-core Linux laptop.
+# This config does not load/quantize the weights; point it at a compatible backend.
+base_url = "http://127.0.0.1:8000/v1"
+model = "zitian-gao/Loopie-20B-A2B-preview"
+workspace = "."
+profile = "fast"
+protocol = "json"
+context_tokens = 12288
+max_output_tokens = 4096
+max_parallel_reads = 2
+max_tool_chars = 6000
+request_timeout = 300
+command_timeout = 90
+max_seconds = 1800
+allow_shell = false
+verification_commands = []
+temperature = 0.6
+top_p = 0.95

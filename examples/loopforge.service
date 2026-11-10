@@ -1,0 +1,17 @@
+[Unit]
+Description=LoopForge local coding endpoint
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+EnvironmentFile=-%h/.config/loopforge/environment
+ExecStart=%h/.local/share/loopforge/venv/bin/loopforge --config %h/.config/loopforge/config.toml serve --host 127.0.0.1 --port 8787
+Restart=on-failure
+RestartSec=3
+KillMode=control-group
+TimeoutStopSec=10
+UMask=0077
+
+[Install]
+WantedBy=default.target

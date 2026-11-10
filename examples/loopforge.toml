@@ -1,0 +1,29 @@
+# Paths are resolved relative to the process working directory. CLI --workspace wins.
+base_url = "http://127.0.0.1:8000/v1"
+model = "zitian-gao/Loopie-20B-A2B-preview"
+workspace = "."
+state_dir = "~/.local/state/loopforge"
+profile = "balanced"
+protocol = "json"
+context_tokens = 16384
+max_output_tokens = 4096
+max_steps = 40
+max_total_tokens = 80000
+max_seconds = 1200
+request_timeout = 300
+command_timeout = 90
+max_tool_chars = 10000
+max_parallel_reads = 4
+temperature = 0.6
+top_p = 0.95
+
+# Opt in once for unattended commands. Shell has your Linux account's permissions.
+allow_shell = false
+# Set commands appropriate to YOUR repository. Requires allow_shell=true.
+verification_commands = []
+# For this harness's own repository:
+# verification_commands = ["python -m unittest discover -s tests -v"]
+
+# vLLM-specific; remove if your backend rejects this extension.
+[extra_body]
+top_k = 20

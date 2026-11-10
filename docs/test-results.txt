@@ -1,0 +1,41 @@
+test_plain_chat_drops_json_constraints (test_harness.BackendTest.test_plain_chat_drops_json_constraints) ... ok
+test_sse_fragmented_native_calls_and_usage (test_harness.BackendTest.test_sse_fragmented_native_calls_and_usage) ... ok
+test_transient_retry_then_success (test_harness.BackendTest.test_transient_retry_then_success) ... ok
+test_truncated_stream_is_discarded (test_harness.BackendTest.test_truncated_stream_is_discarded) ... ok
+test_api_agent_chat_stream_and_rejections (test_harness.HarnessTest.test_api_agent_chat_stream_and_rejections) ... ok
+test_api_auth (test_harness.HarnessTest.test_api_auth) ... ok
+test_batch_preserves_mutation_order (test_harness.HarnessTest.test_batch_preserves_mutation_order) ... ok
+test_cancel_kills_child_and_journals_pending (test_harness.HarnessTest.test_cancel_kills_child_and_journals_pending) ... ok
+test_command_bounded_output_timeout_and_shell_opt_in (test_harness.HarnessTest.test_command_bounded_output_timeout_and_shell_opt_in) ... ok
+test_context_compaction_retains_constraints_and_native_pairs (test_harness.HarnessTest.test_context_compaction_retains_constraints_and_native_pairs) ... ok
+test_engine_repairs_then_edits_and_verifies (test_harness.HarnessTest.test_engine_repairs_then_edits_and_verifies) ... ok
+test_evaluator_keeps_independent_checks (test_harness.HarnessTest.test_evaluator_keeps_independent_checks) ... Evaluation fast/tamper #1
+ok
+test_exact_edit_stale_and_backup (test_harness.HarnessTest.test_exact_edit_stale_and_backup) ... ok
+test_lock_serializes_writers (test_harness.HarnessTest.test_lock_serializes_writers) ... ok
+test_nested_instructions_precede_new_file_edit (test_harness.HarnessTest.test_nested_instructions_precede_new_file_edit) ... ok
+test_no_partial_write_on_ambiguous_match (test_harness.HarnessTest.test_no_partial_write_on_ambiguous_match) ... ok
+test_pending_actions_never_replayed (test_harness.HarnessTest.test_pending_actions_never_replayed) ... ok
+test_repeat_failed_action_stops (test_harness.HarnessTest.test_repeat_failed_action_stops) ... ok
+test_truncated_generation_not_executed (test_harness.HarnessTest.test_truncated_generation_not_executed) ... ok
+test_unverified_edits_labelled (test_harness.HarnessTest.test_unverified_edits_labelled) ... ok
+test_verification_failure_returns_to_model (test_harness.HarnessTest.test_verification_failure_returns_to_model) ... ok
+test_workspace_boundaries_and_symlink (test_harness.HarnessTest.test_workspace_boundaries_and_symlink) ... ok
+test_config_validation_and_profiles (test_harness.ProtocolTest.test_config_validation_and_profiles) ... ok
+test_invalid_json_is_not_repaired_into_code (test_harness.ProtocolTest.test_invalid_json_is_not_repaired_into_code) ... ok
+test_protocol_formats (test_harness.ProtocolTest.test_protocol_formats) ... ok
+test_repeat_detector (test_harness.ProtocolTest.test_repeat_detector) ... ok
+test_bad_checksum_does_not_activate (test_installer.InstallerTest.test_bad_checksum_does_not_activate) ... ok
+test_download_checksum_and_extraction (test_installer.InstallerTest.test_download_checksum_and_extraction) ... ok
+test_failed_pip_keeps_old_install_and_removes_staging (test_installer.InstallerTest.test_failed_pip_keeps_old_install_and_removes_staging) ... ok
+test_first_install_and_upgrade_preserve_config (test_installer.InstallerTest.test_first_install_and_upgrade_preserve_config) ... ok
+test_invalid_flags_fail_before_install (test_installer.InstallerTest.test_invalid_flags_fail_before_install) ... ok
+test_tar_traversal_and_symlink_rejected (test_installer.InstallerTest.test_tar_traversal_and_symlink_rejected) ... ok
+test_unrelated_launcher_is_not_replaced (test_installer.InstallerTest.test_unrelated_launcher_is_not_replaced) ... ok
+test_real_disconnect_cancels_shell (test_network.NetworkTest.test_real_disconnect_cancels_shell) ... ok
+test_real_network_coding_and_conversational_stream (test_network.NetworkTest.test_real_network_coding_and_conversational_stream) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 4.791s
+
+OK

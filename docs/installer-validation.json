@@ -1,0 +1,6 @@
+{
+  "real_local_install": true,
+  "installed_version": "0.1.0",
+  "cli_smoke": true,
+  "note": "Real venv and pip install with existing runtime dependencies shared for offline verification; no dependency downloads."
+}

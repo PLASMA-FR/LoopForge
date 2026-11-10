@@ -1,0 +1,10 @@
+{
+  "kind": "synthetic_orchestration_only",
+  "runs": 100,
+  "model_calls_per_run": 2,
+  "median_ms": 4.688140000098429,
+  "p95_ms": 5.685352000000421,
+  "min_ms": 4.173465000121723,
+  "includes": "workspace lock, SQLite checkpoints/events, one real repository listing",
+  "excludes": "inference, network latency, editing, verification; no Loopie performance claim"
+}

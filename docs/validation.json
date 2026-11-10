@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-10",
+  "python": "3.12.14",
+  "platform": "Linux",
+  "tests": 35,
+  "tests_passed": true,
+  "test_duration_seconds": 5.145,
+  "network_tests": "real HTTP sockets, uvicorn, scripted upstream; edits/checks/disconnect cancellation",
+  "synthetic_overhead": {
+    "kind": "synthetic_orchestration_only",
+    "runs": 100,
+    "model_calls_per_run": 2,
+    "median_ms": 4.688140000098429,
+    "p95_ms": 5.685352000000421,
+    "min_ms": 4.173465000121723,
+    "includes": "workspace lock, SQLite checkpoints/events, one real repository listing",
+    "excludes": "inference, network latency, editing, verification; no Loopie performance claim"
+  },
+  "real_loopie_tested": false,
+  "limitation": "No Loopie inference endpoint/weights supplied. No model throughput or quality improvement is claimed.",
+  "installer_tests": "7 offline transaction/archive tests; real local venv/pip smoke recorded separately"
+}
