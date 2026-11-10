@@ -1,0 +1,10 @@
+{
+  "hub_package": "huggingface-hub==2.4.0",
+  "real_helper_install": true,
+  "real_download_file": "config.json",
+  "downloaded_bytes": 1823,
+  "pinned_revision": "652d78bb761afc4ac83e454fe71a02beb3f974cf",
+  "repeat_download_passed": true,
+  "full_weights_downloaded": false,
+  "vllm_build_or_inference_tested": false
+}

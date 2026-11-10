@@ -44,6 +44,21 @@ def parser():
     bench.add_argument("--output", default="loopforge-benchmark.json")
     bench.add_argument("--profiles", default="fast,balanced,deep")
     bench.add_argument("--repeats", type=int, default=1)
+    from .models import MODEL_REVISION
+    install = sub.add_parser("install-model", help="Download Loopie 20B-A2B; optionally install its loop-aware vLLM runtime")
+    install.add_argument("name", nargs="?", default="loopie", choices=["loopie", "loopie-20b-a2b"])
+    install.add_argument("--directory", help="Model directory; defaults to an XDG data directory per revision")
+    install.add_argument("--revision", default=MODEL_REVISION, help="Hugging Face revision (default: pinned checked commit)")
+    install.add_argument("--workers", type=int, default=4, help="Concurrent download workers (1–16)")
+    install.add_argument("--tools-dir", help="Directory for isolated downloader/runtime environments")
+    install.add_argument("--python", default=sys.executable, help="Python executable for separate environments")
+    install.add_argument("--with-runtime", action="store_true", help="Also build/install the pinned loop-aware vLLM fork")
+    install.add_argument("--dry-run", action="store_true", help="Fetch metadata and print sizes/paths; install/download nothing")
+    model_server = sub.add_parser("serve-model", help="Run an installed Loopie vLLM backend on loopback")
+    model_server.add_argument("name", nargs="?", default="loopie", choices=["loopie", "loopie-20b-a2b"])
+    model_server.add_argument("--directory", help="Model directory (default: pinned Loopie snapshot)")
+    model_server.add_argument("--port", type=int, default=8000)
+    model_server.add_argument("--context-tokens", type=int, default=16384)
     return p
 
 
@@ -146,6 +161,10 @@ async def execute(args, config):
 def main():
     args = parser().parse_args()
     try:
+        if args.command in {"install-model", "serve-model"}:
+            from .models import install_model, serve_model
+            (install_model if args.command == "install-model" else serve_model)(args)
+            return
         config = load_config(args.config, **{k: getattr(args, k) for k in (
             "workspace", "base_url", "model", "profile", "protocol", "allow_shell", "verification_commands")})
         if args.command == "serve":
@@ -160,5 +179,10 @@ def main():
         print(f"loopforge: {e}", file=sys.stderr)
         raise SystemExit(1)
     except KeyboardInterrupt:
-        print("\nStopped. Interrupted actions are recorded; inspect the session before recovery.", file=sys.stderr)
+        if args.command == "install-model":
+            print("\nModel installation stopped. Re-run install-model with the same directory/revision to resume.", file=sys.stderr)
+        elif args.command == "serve-model":
+            print("\nModel backend stopped.", file=sys.stderr)
+        else:
+            print("\nStopped. Interrupted actions are recorded; inspect the session before recovery.", file=sys.stderr)
         raise SystemExit(130)

@@ -27,7 +27,8 @@ loopforge --workspace ~/code/my-project --allow-shell serve
 The installer creates a dedicated venv in `~/.local/share/loopforge`, links the CLI
 into `~/.local/bin`, and preserves config at `~/.config/loopforge/config.toml`.
 Existing configuration is used when passed with `--config`; it is not loaded
-automatically. Model weights and the inference backend are installed separately.
+automatically. Use `install-model` below to install model weights and, optionally,
+the inference backend after installing the harness.
 The installer runs pip to install Python dependencies; it does not need sudo.
 On Debian/Ubuntu, install `python3-venv` if Python cannot create virtual environments.
 
@@ -92,6 +93,73 @@ use `pip install -r requirements.lock` before installing the package when exact
 reproduction is needed. Remote SOCKS proxies additionally need `httpx[socks]`.
 Loopback inference connections bypass machine-wide proxy environment variables.
 
+## Install Loopie from the CLI
+
+```bash
+# Show the resolved revision, total/remaining bytes, and free disk space.
+# This reads metadata only; it creates no environments or model directories.
+loopforge install-model loopie --dry-run
+
+# Download the original Loopie 20B-A2B safetensors checkpoint.
+loopforge install-model loopie
+
+# Optionally install its loop-aware vLLM fork too, in a separate environment.
+# This reuses the downloaded files rather than downloading the weights twice.
+loopforge install-model loopie --with-runtime
+
+# Run the installed backend on 127.0.0.1:8000 in this terminal.
+loopforge serve-model loopie
+
+# In another terminal, use the coding agent or expose its endpoint.
+loopforge --workspace ~/code/my-project --allow-shell chat
+loopforge --workspace ~/code/my-project --allow-shell serve
+```
+
+`loopforge install-model` also works without the `loopie` name. The alias
+`loopie-20b-a2b` is accepted. Defaults pin the checked Hugging Face commit and the
+loop-aware vLLM Git commit; nothing is installed when ordinary chat/serve starts.
+The curl installer itself continues to install only the harness.
+
+The original checkpoint is **about 42.2 GB in BF16**, before runtime, caches and
+KV memory. It does not fit into 32 GB RAM as a complete BF16 model. Downloading it
+does not quantize it, enable Intel GPU support, or guarantee it will run on your
+machine. `--with-runtime` is opt-in because it builds third-party vLLM source and
+its dependencies, requiring `git`, suitable build tools/hardware, and additional
+disk space. CPU-only/Intel laptop serving was not validated; use a compatible
+remote backend or a separately validated quantized runtime where appropriate.
+
+Model installation defaults to
+`~/.local/share/loopforge/models/Loopie-20B-A2B-preview/COMMIT_SHA`, honoring
+`XDG_DATA_HOME`. Helper/runtime environments live under
+`~/.local/share/loopforge/model-tools`. No packages are installed into the
+harness environment or system Python. Files are downloaded using
+`huggingface_hub.snapshot_download` with four workers; existing download metadata
+is retained for reruns. If interrupted, run the same command again. Completion
+requires expected file sizes, the Loopie architecture config, and an index that
+references downloaded safetensors shards. This is structural/size validation,
+not a second full-file checksum pass or an inference correctness test.
+
+```bash
+loopforge install-model loopie --directory /data/models/loopie --workers 2
+loopforge install-model loopie --directory /data/models/loopie --with-runtime
+loopforge serve-model loopie --directory /data/models/loopie --port 8000 --context-tokens 8192
+```
+
+Options include `--revision REF`, `--tools-dir DIR`, and `--python /path/to/python`.
+An overridden branch/tag resolves to a commit SHA before downloading. A managed
+destination is tied to that revision; use a different directory to install a
+different revision. `serve-model` defaults to the pinned model directory, port
+8000 and 16384 context tokens. Custom directories/revisions must be supplied with
+`--directory` when serving. Backend binding stays on loopback. Configure the
+harness `--base-url` if you change the backend port.
+
+Authentication, if needed, uses Hugging Face's normal environment/cache support
+in the downloader (for example `HF_TOKEN`); tokens are not saved in the model
+manifest. Network and pip progress are visible. A runtime build failure preserves
+the completed model and any previously active runtime; rerun with `--with-runtime`
+to retry. Previous helper/runtime environments remain on disk. Core dependencies
+stay small because the Hub client and vLLM are installed only when requested.
+
 ## Loopie backend requirements
 
 The checked checkpoint is
@@ -118,8 +186,9 @@ basic serving command is:
 vllm serve zitian-gao/Loopie-20B-A2B-preview
 ```
 
-Follow that runtime's current installation/hardware instructions. No inference
-fork or weights are installed by this harness. Do not reduce latent layer loops
+Follow that runtime's current installation/hardware instructions. The CLI's
+`--with-runtime` option installs the pinned source fork without starting it.
+Do not reduce latent layer loops
 to gain speed: that changes the model computation and may break quality/caching.
 The JSON protocol requires ordinary text generation, so a backend-native tool
 parser is optional. Native mode requires the backend to emit proper tool calls.

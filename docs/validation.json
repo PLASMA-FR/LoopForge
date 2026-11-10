@@ -2,9 +2,9 @@
   "date": "2026-11-10",
   "python": "3.12.14",
   "platform": "Linux",
-  "tests": 35,
+  "tests": 50,
   "tests_passed": true,
-  "test_duration_seconds": 5.145,
+  "test_duration_seconds": 5.004,
   "network_tests": "real HTTP sockets, uvicorn, scripted upstream; edits/checks/disconnect cancellation",
   "synthetic_overhead": {
     "kind": "synthetic_orchestration_only",
@@ -18,5 +18,7 @@
   },
   "real_loopie_tested": false,
   "limitation": "No Loopie inference endpoint/weights supplied. No model throughput or quality improvement is claimed.",
-  "installer_tests": "7 offline transaction/archive tests; real local venv/pip smoke recorded separately"
+  "installer_tests": "7 offline transaction/archive tests; real local venv/pip smoke recorded separately",
+  "version": "0.2.0",
+  "model_install_tests": "15 fixture/mock tests plus live Hugging Face metadata and small-file download smoke; no full weights or GPU inference test"
 }
